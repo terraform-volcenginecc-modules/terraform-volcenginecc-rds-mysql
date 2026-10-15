@@ -1,47 +1,26 @@
 # terraform-volcenginecc-rds-mysql
 
-Terraform Module scaffold for the VolcengineCC provider.
-
-> Status: Scaffold only. The Terraform implementation for this repository is
-> not available yet, and this repository is not ready for production use.
-
 ## Overview
 
-This repository reserves the module name `volcengine/rds-mysql/volcenginecc`.
-
-The module is intended to provide a reusable Terraform abstraction for the
-`rds-mysql` scenario using the `volcengine/volcenginecc` provider.
-
-Current scope:
-
-- Repository and module scaffold only.
-- No Terraform resources or data sources are currently managed.
-- No production-readiness or real-cloud validation claim is made.
+Terraform module for managing Volcengine RDS MYSQL resources with the `volcenginecc` provider. The caller owns provider authentication, region configuration, and external resources passed by ID.
 
 ## Usage
 
-The module implementation is not available yet. A runnable configuration will
-be added together with the first implementation release.
+```hcl
+module "rds_mysql" {
+  source  = "terraform-volcenginecc-modules/rds-mysql/volcenginecc"
+  version = "~> 1.0"
 
-Provider authentication and region configuration must be supplied by the
-caller. Do not commit credentials, access keys, secrets, Terraform state, or
-plan files.
-
-## Examples
-
-Examples will be added when the module implementation is available.
-
-Planned examples:
-
-- `examples/basic`
-- `examples/complete`
+  # Set the required module inputs for your environment.
+}
+```
 
 ## Requirements
 
 | Name | Version |
 |---|---|
-| Terraform | To be defined with the first implementation |
-| `volcengine/volcenginecc` | To be defined with the first implementation |
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
 
 ## Providers
 
@@ -51,38 +30,69 @@ Planned examples:
 
 ## Resources
 
-No resources or data sources are currently managed.
-
-The resource inventory will be documented before the first release.
+| Name | Description |
+|---|---|
+| `volcenginecc_rdsmysql_parameter_template` | Module-defined volcenginecc_rdsmysql_parameter_template. |
+| `volcenginecc_rdsmysql_allow_list` | Module-defined volcenginecc_rdsmysql_allow_list. |
+| `volcenginecc_rdsmysql_instance` | Module-defined volcenginecc_rdsmysql_instance. |
+| `volcenginecc_rdsmysql_database` | Module-defined volcenginecc_rdsmysql_database. |
+| `volcenginecc_rdsmysql_db_account` | Module-defined volcenginecc_rdsmysql_db_account. |
+| `volcenginecc_rdsmysql_backup` | Module-defined volcenginecc_rdsmysql_backup. |
 
 ## Inputs
 
-No input variables are currently defined.
-
-All inputs will document their type, default value, required status,
-validation, ownership, and replacement behavior when implemented.
+| Name | Description |
+|---|---|
+| `instance_name` | Module-defined instance_name. |
+| `vpc_id` | Module-defined vpc_id. |
+| `subnet_id` | Module-defined subnet_id. |
+| `db_engine_version` | Module-defined db_engine_version. |
+| `engine_type` | Module-defined engine_type. |
+| `instance_type` | Module-defined instance_type. |
+| `nodes` | Module-defined nodes. |
+| `storage_type` | Module-defined storage_type. |
+| `storage_space_gb` | Module-defined storage_space_gb. |
+| `charge_detail` | Module-defined charge_detail. |
+| `project_name` | Module-defined project_name. |
+| `deletion_protection` | Module-defined deletion_protection. |
+| `lower_case_table_names` | Module-defined lower_case_table_names. |
+| `db_time_zone` | Module-defined db_time_zone. |
+| `sync_mode` | Module-defined sync_mode. |
+| `port` | Module-defined port. |
+| `maintenance_window` | Module-defined maintenance_window. |
+| `auto_storage_scaling_config` | Module-defined auto_storage_scaling_config. |
+| `backup_policy` | Module-defined backup_policy. |
+| `db_param_group_id` | Module-defined db_param_group_id. |
+| `parameter_template` | Module-defined parameter_template. |
+| `super_account_name` | Module-defined super_account_name. |
+| `super_account_password` | Module-defined super_account_password. |
+| `tags` | Module-defined tags. |
+| `allow_list_ids` | Module-defined allow_list_ids. |
+| `allow_lists` | Module-defined allow_lists. |
+| `databases` | Module-defined databases. |
+| `accounts` | Module-defined accounts. |
+| `account_passwords` | Module-defined account_passwords. |
+| `manual_backups` | Module-defined manual_backups. |
 
 ## Outputs
 
-No outputs are currently defined.
+| Name | Description |
+|---|---|
+| `instance_id` | Module-defined instance_id. |
+| `instance_name` | Module-defined instance_name. |
+| `private_addresses` | Module-defined private_addresses. |
+| `allow_list_ids` | Module-defined allow_list_ids. |
+| `database_ids` | Module-defined database_ids. |
+| `account_ids` | Module-defined account_ids. |
+| `parameter_template_id` | Module-defined parameter_template_id. |
 
-Outputs will document their exact semantics when implemented.
+## Examples
+
+- `basic`: independently runnable basic configuration.
+- `complete`: independently runnable complete configuration.
 
 ## Notes
 
-- This repository is currently a scaffold and is not a publishable functional
-  module.
-- Real-cloud validation has not been performed.
-- Provider limitations and unsupported scenarios will be documented before
-  release.
-- Resource ownership, import behavior, replacement behavior, cost risks, and
-  cleanup procedures must be documented before the first release.
-
-## Security
-
-Please report security issues according to the [Security Policy](SECURITY.md).
-Do not disclose security vulnerabilities through public issues.
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE).
+- Configure credentials using supported provider mechanisms; do not put access keys in module files.
+- Review replacement behavior and provider constraints before applying changes.
+- Run `terraform plan` after apply and confirm that the second plan has no changes.
